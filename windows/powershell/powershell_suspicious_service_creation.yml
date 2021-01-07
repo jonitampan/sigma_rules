@@ -1,0 +1,26 @@
+title: Suspicious PowerShell Service Creation using hidden parameter
+id: 7f2b0ee9-19fb-4d42-83b1-ad514c98a1f0
+status: experimental
+description: Detects suspicious PowerShell Service Creation using hidden parameter
+tags:
+    - attack.execution
+    - attack.t1543.003
+author: jonitampan & infosecn1nja
+date: 2021/01/01
+logsource:
+    product: windows
+    service: powershell
+detection:
+    selection:
+        winlog.channel: System
+        event.provider: Service Control Manager
+        winlog.event_id:
+            - 7045
+        message|all:
+            - 'hidden'
+            - 'powershell'
+            - 'encodedcommand'
+    condition: selection
+falsepositives:
+    - PowerShell scripts that Service Creation using hidden parameter
+level: medium
